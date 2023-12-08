@@ -1,14 +1,23 @@
 package com.example.dad_assembly_vote.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.Hibernate;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "tb_pauta")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Pauta {
     @Id
     @Column(name = "id", nullable = false)
@@ -16,26 +25,22 @@ public class Pauta {
 
     private String descricao;
 
-    @Column(nullable = true)
-    private String opcao;
+    private String fileUrl;
 
-    @OneToMany(mappedBy = "pauta", orphanRemoval = true)
-    private Set<Voto> votos = new LinkedHashSet<>();
 
-    public Set<Voto> getVotos() {
-        return votos;
-    }
+    private LocalDateTime horarioInicio;
 
-    public void setVotos(Set<Voto> votos) {
-        this.votos = votos;
-    }
+    private LocalDateTime horarioTermino;
 
-    public Long getId() {
-        return id;
-    }
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "pauta_id")
+    private Set<Voto> votoes = new LinkedHashSet<>();
 
-    public void setId(Long id) {
-        this.id = id;
+    public Pauta(String descricao, String fileUrl, LocalDateTime horarioInicio, LocalDateTime horarioTermino) {
+        this.descricao = descricao;
+        this.fileUrl = fileUrl;
+        this.horarioInicio = horarioInicio;
+        this.horarioTermino = horarioTermino;
     }
 
     @Override

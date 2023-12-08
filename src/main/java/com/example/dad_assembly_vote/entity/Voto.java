@@ -1,12 +1,18 @@
 package com.example.dad_assembly_vote.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "tb_voto")
+@Getter
+@Setter
 public class Voto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,46 +20,26 @@ public class Voto {
     private Long id;
 
     private Opcao opcao;
-    @ManyToMany
-    @JoinTable(name = "voto_users",
-            joinColumns = @JoinColumn(name = "voto_id"),
-            inverseJoinColumns = @JoinColumn(name = "users_id"))
-    private Set<User> users = new LinkedHashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "pauta_id")
     private Pauta pauta;
 
-    public Pauta getPauta() {
-        return pauta;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Voto voto = (Voto) o;
+        return id != null && Objects.equals(id, voto.id);
     }
 
-    public void setPauta(Pauta pauta) {
-        this.pauta = pauta;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Opcao getOpcao() {
-        return opcao;
-    }
-
-    public void setOpcao(Opcao opcao) {
-        this.opcao = opcao;
-    }
-
 }

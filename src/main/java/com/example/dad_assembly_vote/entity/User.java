@@ -1,12 +1,20 @@
 package com.example.dad_assembly_vote.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb_user")
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,14 +26,6 @@ public class User {
     private String photoUrl;
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -33,6 +33,7 @@ public class User {
         User user = (User) o;
         return id != null && Objects.equals(id, user.id);
     }
+
 
     @Override
     public int hashCode() {
