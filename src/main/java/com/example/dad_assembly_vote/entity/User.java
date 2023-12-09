@@ -1,7 +1,6 @@
 package com.example.dad_assembly_vote.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +24,10 @@ public class User {
 
     private String photoUrl;
 
+
+    public User(String name) {
+        this.Name = name;
+    }
 
     @Override
     public boolean equals(Object o) {
