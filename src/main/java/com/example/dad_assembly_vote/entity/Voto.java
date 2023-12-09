@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
-import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "tb_voto")
@@ -24,11 +22,20 @@ public class Voto {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
+    @Column(name = "user_id")
+    private Long pautaId;
     @ManyToOne
     @JoinColumn(name = "pauta_id")
     private Pauta pauta;
 
+    public Voto(Opcao opcao, Long userId, Long pautaId) {
+        this.userId = userId;
+        this.pautaId = pautaId;
+        this.opcao = opcao;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -21,5 +21,6 @@ public class PautaController {
     @PostMapping
     public PautaOut RegisterPauta(PautaIn pauta) {
         return pautaService.registerPauta(pauta);
+
     }
 }

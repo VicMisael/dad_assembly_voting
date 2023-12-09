@@ -21,6 +21,7 @@ import java.util.Set;
 public class Pauta {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue
     private Long id;
 
     private String descricao;
@@ -39,6 +40,12 @@ public class Pauta {
     public Pauta(String descricao, String fileUrl, LocalDateTime horarioInicio, LocalDateTime horarioTermino) {
         this.descricao = descricao;
         this.fileUrl = fileUrl;
+        this.horarioInicio = horarioInicio;
+        this.horarioTermino = horarioTermino;
+    }
+
+    public Pauta(String descricao, LocalDateTime horarioInicio, LocalDateTime horarioTermino) {
+        this.descricao = descricao;
         this.horarioInicio = horarioInicio;
         this.horarioTermino = horarioTermino;
     }
