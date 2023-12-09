@@ -12,5 +12,5 @@ public interface IUserService {
 
     public UserOut addPicture(AddPictureIn pictureIn);
 
-    public Queryable<User> query(QueryIn query);
+    public Queryable<UserOut> query(QueryIn query);
 }

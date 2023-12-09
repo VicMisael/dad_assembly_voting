@@ -20,13 +20,17 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String Name;
+    private String name;
 
     private String photoUrl;
 
 
     public User(String name) {
-        this.Name = name;
+        this.name = name;
+    }
+
+    public User(Long id) {
+        this.id = id;
     }
 
     @Override

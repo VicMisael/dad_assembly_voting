@@ -8,6 +8,7 @@ import com.example.dad_assembly_vote.usecases.users.register.UserIn;
 import com.example.dad_assembly_vote.usecases.users.register.UserOut;
 import com.example.dad_assembly_vote.utils.QueryIn;
 import com.example.dad_assembly_vote.utils.Queryable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,8 +34,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Queryable<User> query(QueryIn query) {
-        return null;
+    public Queryable<UserOut> query(QueryIn query) {
+        var pageConfig = PageRequest.of(query.page(), query.perPage());
+        var page = userRepository.findAllByNameContainingIgnoreCase(query.query(), pageConfig);
+        return new Queryable<>(page.getNumber(), (int) userRepository.count(), query.perPage(),
+                page.getContent().stream().map(UserOut::fromUser).toList());
     }
 
 }

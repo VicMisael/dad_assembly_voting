@@ -37,6 +37,10 @@ public class Pauta {
     @JoinColumn(name = "pauta_id")
     private Set<Voto> votoes = new LinkedHashSet<>();
 
+    public Pauta(Long id) {
+        this.id = id;
+    }
+
     public Pauta(String descricao, String fileUrl, LocalDateTime horarioInicio, LocalDateTime horarioTermino) {
         this.descricao = descricao;
         this.fileUrl = fileUrl;

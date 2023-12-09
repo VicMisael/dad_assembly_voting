@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record PautaQueryOut(
+        Long id,
         String descricao,
         String fileUrl,
         LocalDateTime horarioInicio,
@@ -13,7 +14,7 @@ public record PautaQueryOut(
         List<VotoOut> votos
 ) {
     public static PautaQueryOut fromPauta(Pauta pauta) {
-        return new PautaQueryOut(pauta.getDescricao(), pauta.getFileUrl(), pauta.getHorarioInicio(), pauta.getHorarioTermino(), pauta
+        return new PautaQueryOut(pauta.getId(), pauta.getDescricao(), pauta.getFileUrl(), pauta.getHorarioInicio(), pauta.getHorarioTermino(), pauta
                 .getVotoes().stream().map(VotoOut::fromVoto).toList());
     }
 }

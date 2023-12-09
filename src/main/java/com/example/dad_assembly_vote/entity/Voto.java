@@ -1,7 +1,9 @@
 package com.example.dad_assembly_vote.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
@@ -11,6 +13,8 @@ import java.util.Objects;
 @Table(name = "tb_voto")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Voto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,18 +26,13 @@ public class Voto {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @Column(name = "user_id")
-    private Long userId;
-
-    @Column(name = "user_id")
-    private Long pautaId;
     @ManyToOne
     @JoinColumn(name = "pauta_id")
     private Pauta pauta;
 
     public Voto(Opcao opcao, Long userId, Long pautaId) {
-        this.userId = userId;
-        this.pautaId = pautaId;
+        this.user = new User(userId);
+        this.pauta = new Pauta(pautaId);
         this.opcao = opcao;
     }
 
