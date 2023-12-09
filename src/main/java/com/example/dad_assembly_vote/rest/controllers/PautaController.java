@@ -7,6 +7,7 @@ import com.example.dad_assembly_vote.usecases.pauta.register.PautaOut;
 import com.example.dad_assembly_vote.utils.QueryIn;
 import com.example.dad_assembly_vote.utils.Queryable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -28,13 +29,17 @@ public class PautaController {
 
     @GetMapping
     public Queryable<PautaQueryOut> getPautas(@RequestParam Optional<String> query,
-                                             @RequestParam Optional<Integer> page,
-                                             @RequestParam Optional<Integer> perPage) {
+                                              @RequestParam Optional<Integer> page,
+                                              @RequestParam Optional<Integer> perPage) {
         int perPageFiltered = perPage.orElse(10);
         int pageFiltered = page.orElse(0);
         var queryIn = new QueryIn(query.orElse(""), Math.max(pageFiltered, 0), perPageFiltered <= 0 ? 10 : perPageFiltered);
         return pautaService.queryPautas(queryIn);
     }
 
+    @PostMapping(value = "/document/{id}", consumes = {"multipart/form-data"})
+    public PautaOut insertDocument(@RequestParam("file") MultipartFile file, @PathVariable Long id) {
+       return pautaService.AddDocument(id, file);
+    }
 
 }

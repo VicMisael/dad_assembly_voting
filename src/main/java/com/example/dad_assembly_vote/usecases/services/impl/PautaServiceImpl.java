@@ -10,6 +10,7 @@ import com.example.dad_assembly_vote.usecases.pauta.query.PautaQueryOut;
 import com.example.dad_assembly_vote.usecases.pauta.register.PautaIn;
 import com.example.dad_assembly_vote.usecases.pauta.register.PautaOut;
 import com.example.dad_assembly_vote.usecases.pauta.vote.VoteIn;
+import com.example.dad_assembly_vote.usecases.storage.StorageStrategy;
 import com.example.dad_assembly_vote.utils.EstadoUtils;
 import com.example.dad_assembly_vote.utils.QueryIn;
 import com.example.dad_assembly_vote.utils.Queryable;
@@ -26,10 +27,13 @@ public class PautaServiceImpl implements IPautaService {
     private final VotoRepository votoRepository;
     private final UserRepository userRepository;
 
-    public PautaServiceImpl(PautaRepository pautaRepository, VotoRepository votoRepository, UserRepository userRepository) {
+    private final StorageStrategy storageStrategy;
+
+    public PautaServiceImpl(PautaRepository pautaRepository, VotoRepository votoRepository, UserRepository userRepository, StorageStrategy storageStrategy) {
         this.pautaRepository = pautaRepository;
         this.votoRepository = votoRepository;
         this.userRepository = userRepository;
+        this.storageStrategy = storageStrategy;
     }
 
     @Override
@@ -41,7 +45,16 @@ public class PautaServiceImpl implements IPautaService {
 
     @Override
     public PautaOut AddDocument(Long id, MultipartFile file) {
-        return null;
+        var pauta = pautaRepository.findById(id);
+        if (pauta.isPresent()) {
+            var pautaOut = pauta.get();
+            var output = storageStrategy.insertFileAtFolder("user", file);
+            pautaOut.setFileUrl(output);
+            return PautaOut.fromPauta(pautaRepository.save(pautaOut));
+        }
+        throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "user not found"
+        );
     }
 
     @Override
